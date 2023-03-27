@@ -16,5 +16,7 @@
         Year: {{book.year}}
       </div>
     </mat-card-content>
+<!--    The delete modal confirmation code is based on these instructions: https://material.angular.io/components/dialog/overview-->
+    <button mat-raised-button (click)="openDialog()">Delete<mat-icon>delete</mat-icon></button>
   </mat-card>
 </div>
