@@ -12,6 +12,7 @@ import { Book } from '../../models/book';
 export class BooksListComponent implements OnInit {
 
   books$!: Observable<Page<Book>>;
+  searchText: string = '';
 
   constructor(
     private bookService: BookService,
