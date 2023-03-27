@@ -41,4 +41,11 @@ export class BookService {
     return this.http.delete<void>(url, {params});
   }
 
+  getBooksByName(name: string, filter: Partial<PageRequest>) {
+    console.log(name)
+    const url = this.baseUrl + '/getBooksByName';
+    let params = RestUtil.buildParamsFromPageRequest(filter);
+    params = params.set('bookName', name);
+    return this.http.get<Page<Book>>(url, {params});
+  }
 }
