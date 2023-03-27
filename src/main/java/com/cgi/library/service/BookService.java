@@ -36,4 +36,9 @@ public class BookService {
     public void deleteBook(UUID bookId) {
         bookRepository.deleteById(bookId);
     }
+
+    public Page<BookDTO> getBooksByName(String bookName, Pageable pageable) {
+        ModelMapper modelMapper = ModelMapperFactory.getMapper();
+        return bookRepository.findByTitleContainingIgnoreCase(bookName, pageable).map(book -> modelMapper.map(book, BookDTO.class));
+    }
 }
