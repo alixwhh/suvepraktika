@@ -23,14 +23,15 @@ export class BookDetailComponent implements OnInit {
   ) {
   }
 
-  openDialog() {
-    this.dialog.open(DeleteModalConfirmation);
+  openDialog(id: string) {
+    const modalRef = this.dialog.open(DeleteModalConfirmation);
+    modalRef.componentInstance.id = id;
   }
 
   ngOnInit(): void {
     this.book$ = this.route.params
       .pipe(map(params => params['id']))
-      .pipe(switchMap(id => this.bookService.getBook(id)))
+      .pipe(switchMap(id => this.bookService.getBook(id)));
   }
 
 }
