@@ -1,11 +1,11 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import { BookService } from '../../services/book.service';
-import { Observable } from 'rxjs';
-import { Page } from '../../models/page';
-import { Book } from '../../models/book';
+import {Component, OnInit} from '@angular/core';
+import {BookService} from '../../services/book.service';
+import {Observable} from 'rxjs';
+import {Page} from '../../models/page';
+import {Book} from '../../models/book';
 import {PageEvent} from '@angular/material/paginator';
 import {MatTableDataSource} from "@angular/material/table";
-import {MatSort, Sort, SortDirection} from "@angular/material/sort";
+import {Sort, SortDirection} from "@angular/material/sort";
 
 @Component({
   selector: 'app-books-list',
@@ -24,8 +24,9 @@ export class BooksListComponent implements OnInit {
   length = 0;
   sortDirection!: SortDirection;
   sort!: string;
+  bookStatuses = [null, 'AVAILABLE', 'BORROWED', 'RETURNED', 'DAMAGED', 'PROCESSING']
   dataSource = new MatTableDataSource<Book>();
-  displayedColumns: string[] = ['title', 'author', 'year'];
+  displayedColumns: string[] = ['title', 'author', 'year', 'status'];
   books: Page<Book>[] = [];
 
 
@@ -39,7 +40,7 @@ export class BooksListComponent implements OnInit {
     this.books$ = this.bookService.getBooks({pageIndex: this.pageIndex, pageSize:this.pageSize, sort:this.sort, direction:this.sortDirection});
     this.books$.subscribe(books => {
       this.dataSource.data = books.content;
-      this.length = books.totalElements
+      this.length = books.totalElements;
     });
   }
 
@@ -56,3 +57,4 @@ export class BooksListComponent implements OnInit {
     this.ngOnInit();
   }
 }
+
