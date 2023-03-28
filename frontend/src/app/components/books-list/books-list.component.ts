@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { BookService } from '../../services/book.service';
 import { Observable } from 'rxjs';
 import { Page } from '../../models/page';
 import { Book } from '../../models/book';
 import {PageEvent} from '@angular/material/paginator';
-import {map} from "rxjs/operators";
 import {MatTableDataSource} from "@angular/material/table";
+import {MatSort, Sort, SortDirection} from "@angular/material/sort";
 
 @Component({
   selector: 'app-books-list',
@@ -22,6 +22,8 @@ export class BooksListComponent implements OnInit {
   showPageSizeOptions = true;
   showFirstLastButtons = true;
   length = 0;
+  sortDirection!: SortDirection;
+  sort!: string;
   dataSource = new MatTableDataSource<Book>();
   displayedColumns: string[] = ['title', 'author', 'year'];
   books: Page<Book>[] = [];
@@ -34,11 +36,17 @@ export class BooksListComponent implements OnInit {
 
   ngOnInit(): void {
     // TODO this observable should emit books taking into consideration pagination, sorting and filtering options.
-    this.books$ = this.bookService.getBooks({pageIndex: this.pageIndex, pageSize:this.pageSize});
+    this.books$ = this.bookService.getBooks({pageIndex: this.pageIndex, pageSize:this.pageSize, sort:this.sort, direction:this.sortDirection});
     this.books$.subscribe(books => {
       this.dataSource.data = books.content;
       this.length = books.totalElements
     });
+  }
+
+  sortBooks(event: Sort) {
+    this.sortDirection = event.direction;
+    this.sort = event.active;
+    this.ngOnInit();
   }
 
   handlePageChangeEvent(event: PageEvent) {
