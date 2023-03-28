@@ -25,6 +25,7 @@ export class BooksListComponent implements OnInit {
   sortDirection!: SortDirection;
   sort!: string;
   bookStatuses = [null, 'AVAILABLE', 'BORROWED', 'RETURNED', 'DAMAGED', 'PROCESSING']
+  selectedStatus!: string;
   dataSource = new MatTableDataSource<Book>();
   displayedColumns: string[] = ['title', 'author', 'year', 'status'];
   books: Page<Book>[] = [];
@@ -37,11 +38,15 @@ export class BooksListComponent implements OnInit {
 
   ngOnInit(): void {
     // TODO this observable should emit books taking into consideration pagination, sorting and filtering options.
-    this.books$ = this.bookService.getBooks({pageIndex: this.pageIndex, pageSize:this.pageSize, sort:this.sort, direction:this.sortDirection});
+    this.books$ = this.bookService.getBooks({pageIndex: this.pageIndex, pageSize:this.pageSize, sort:this.sort, direction:this.sortDirection}, this.selectedStatus);
     this.books$.subscribe(books => {
       this.dataSource.data = books.content;
       this.length = books.totalElements;
     });
+  }
+
+  filterBySelectedStatus() {
+    this.ngOnInit();
   }
 
   sortBooks(event: Sort) {
@@ -57,4 +62,3 @@ export class BooksListComponent implements OnInit {
     this.ngOnInit();
   }
 }
-

@@ -6,7 +6,7 @@
     </mat-form-field>
     <mat-form-field class="select-field">
       <mat-label>Select status</mat-label>
-      <mat-select>
+      <mat-select [(ngModel)]="selectedStatus" (openedChange)="filterBySelectedStatus()">
         <mat-option *ngFor="let status of bookStatuses" [value]="status">
           {{status}}
         </mat-option>
@@ -35,13 +35,12 @@
     <tr mat-row class="table-row" *matRowDef="let book; columns: displayedColumns;" [routerLink]="['/books', book.id]"></tr>
   </table>
   <mat-paginator
-                 class="paginator"
-                 (page)="handlePageChangeEvent($event)"
-                 [length]="length"
-                 [pageSize]="pageSize"
-                 [showFirstLastButtons]="showFirstLastButtons"
-                 [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
-                 [pageIndex]="pageIndex">
+    class="paginator"
+    (page)="handlePageChangeEvent($event)"
+    [length]="length"
+    [pageSize]="pageSize"
+    [showFirstLastButtons]="showFirstLastButtons"
+    [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
+    [pageIndex]="pageIndex">
   </mat-paginator>
 </div>
-
