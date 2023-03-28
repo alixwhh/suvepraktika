@@ -40,7 +40,7 @@ public class BookController {
     }
 
     @GetMapping(value = "getBooksByName")
-    public ResponseEntity<Page<BookDTO>> getBooksByName(@RequestParam(value = "bookName") String bookName, Pageable pageable) {
-        return ResponseEntity.ok(bookService.getBooksByName(bookName, pageable));
+    public ResponseEntity<Page<BookDTO>> getBooksByName(@RequestParam(value = "bookName") String bookName, @RequestParam(value = "status", required = false) String status, Pageable pageable) {
+        return ResponseEntity.ok(bookService.getBooksByName(bookName, status, pageable));
     }
 }

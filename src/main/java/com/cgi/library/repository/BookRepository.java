@@ -13,5 +13,6 @@ import java.util.UUID;
 @Repository
 public interface BookRepository extends JpaRepository<Book, UUID> {
     Page<Book> findByTitleContainingIgnoreCase(String bookName, Pageable pageable);
+    Page<Book> findAllByTitleContainingIgnoreCaseAndStatus(String bookName, BookStatus bookStatus, Pageable pageable);
     Page<Book> findAllByStatus(BookStatus bookStatus, Pageable pageable);
 }

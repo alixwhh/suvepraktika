@@ -28,21 +28,6 @@ public class BookService {
         return bookRepository.findAll(pageable).map(book -> modelMapper.map(book, BookDTO.class));
     }
 
-    public BookStatus getEnumValueFromStatusString(String statusString) {
-        switch (statusString) {
-            case "AVAILABLE":
-                return BookStatus.AVAILABLE;
-            case "BORROWED":
-                return BookStatus.BORROWED;
-            case "RETURNED":
-                return BookStatus.RETURNED;
-            case "DAMAGED":
-                return BookStatus.DAMAGED;
-            default:
-                return BookStatus.PROCESSING;
-        }
-    }
-
     public BookDTO getBook(UUID bookId) {
         Book book = bookRepository.getOne(bookId);
         return ModelMapperFactory.getMapper().map(book, BookDTO.class);
@@ -57,8 +42,27 @@ public class BookService {
         bookRepository.deleteById(bookId);
     }
 
-    public Page<BookDTO> getBooksByName(String bookName, Pageable pageable) {
+    public Page<BookDTO> getBooksByName(String bookName, String statusString, Pageable pageable) {
         ModelMapper modelMapper = ModelMapperFactory.getMapper();
+        if (statusString != null) {
+            BookStatus status = getEnumValueFromStatusString(statusString);
+            return bookRepository.findAllByTitleContainingIgnoreCaseAndStatus(bookName, status, pageable).map(book -> modelMapper.map(book, BookDTO.class));
+        }
         return bookRepository.findByTitleContainingIgnoreCase(bookName, pageable).map(book -> modelMapper.map(book, BookDTO.class));
+    }
+
+    public BookStatus getEnumValueFromStatusString(String statusString) {
+        switch (statusString) {
+            case "AVAILABLE":
+                return BookStatus.AVAILABLE;
+            case "BORROWED":
+                return BookStatus.BORROWED;
+            case "RETURNED":
+                return BookStatus.RETURNED;
+            case "DAMAGED":
+                return BookStatus.DAMAGED;
+            default:
+                return BookStatus.PROCESSING;
+        }
     }
 }
