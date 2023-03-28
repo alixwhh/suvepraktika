@@ -5,16 +5,23 @@
       <a matSuffix [routerLink]="['/search', searchText]"><mat-icon>search</mat-icon></a>
     </mat-form-field>
   </div>
-  <mat-card>
-    <mat-card-title>Books</mat-card-title>
-    <mat-card-content>
-      <mat-nav-list *ngIf="(books$ | async) as books">
-        <a mat-list-item *ngFor="let book of books.content" [routerLink]="['/books', book.id]">
-          {{book.title}}
-        </a>
-      </mat-nav-list>
-    </mat-card-content>
-  </mat-card>
+  <table mat-table [dataSource]="dataSource" class="table"
+         matSort matSortActive="Title">
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef>Title</th>
+      <td mat-cell *matCellDef="let book">{{book.title}}</td>
+    </ng-container>
+    <ng-container matColumnDef="author">
+      <th mat-header-cell *matHeaderCellDef>Author</th>
+      <td mat-cell *matCellDef="let book">{{book.author}}</td>
+    </ng-container>
+    <ng-container matColumnDef="year">
+      <th mat-header-cell *matHeaderCellDef>Author</th>
+      <td mat-cell *matCellDef="let book">{{book.year}}</td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row class="table-row" *matRowDef="let book; columns: displayedColumns;" [routerLink]="['/books', book.id]"></tr>
+  </table>
   <mat-paginator
     class="paginator"
     (page)="handlePageChangeEvent($event)"

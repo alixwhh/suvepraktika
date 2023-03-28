@@ -6,6 +6,7 @@ import { Book } from '../../models/book';
 import { ActivatedRoute } from '@angular/router';
 import { map, switchMap } from 'rxjs/operators';
 import {PageEvent} from "@angular/material/paginator";
+import {MatTableDataSource} from "@angular/material/table";
 
 @Component({
   selector: 'app-search-books-list',
@@ -22,6 +23,8 @@ export class SearchBooksListComponent implements OnInit {
   showPageSizeOptions = true;
   showFirstLastButtons = true;
   length = 0;
+  dataSource = new MatTableDataSource<Book>();
+  displayedColumns: string[] = ['title', 'author', 'year'];
 
   constructor(
     private route: ActivatedRoute,
@@ -33,8 +36,9 @@ export class SearchBooksListComponent implements OnInit {
     this.books$ = this.route.params
       .pipe(map(params => params['name']))
       .pipe(switchMap(name => this.bookService.getBooksByName(name, {pageIndex: this.pageIndex, pageSize:this.pageSize})));
-    this.books$.subscribe(val => {
-      this.length = val.totalElements
+    this.books$.subscribe(books => {
+      this.dataSource.data = books.content;
+      this.length = books.totalElements
     });
   }
 
