@@ -11,14 +11,14 @@
     </ng-container>
     <ng-container matColumnDef="borrowedBook.title">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Borrowed Book</th>
-      <td mat-cell class="borrowed-book-column" *matCellDef="let checkout" [routerLink]="['/books', checkout.borrowedBook.id]">{{checkout.borrowedBook.title}}</td>
+      <td mat-cell *matCellDef="let checkout">{{checkout.borrowedBook.title}}</td>
     </ng-container>
     <ng-container matColumnDef="dueDate">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Due Date</th>
       <td mat-cell *matCellDef="let checkout">{{checkout.dueDate}}</td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let checkout; columns: displayedColumns;"></tr>
+    <tr mat-row class="table-row" *matRowDef="let checkout; columns: displayedColumns;" [routerLink]="['/checkout', checkout.id]"></tr>
   </table>
   <mat-paginator
     class="paginator"
