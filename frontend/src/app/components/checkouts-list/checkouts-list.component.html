@@ -19,4 +19,13 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row class="table-row" *matRowDef="let checkout; columns: displayedColumns;"></tr>
   </table>
+  <mat-paginator
+    class="paginator"
+    (page)="handlePageChangeEvent($event)"
+    [length]="length"
+    [pageSize]="pageSize"
+    [showFirstLastButtons]="showFirstLastButtons"
+    [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
+    [pageIndex]="pageIndex">
+  </mat-paginator>
 </div>

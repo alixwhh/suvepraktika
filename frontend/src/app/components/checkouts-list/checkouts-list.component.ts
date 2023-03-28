@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Page } from '../../models/page';
 import { Book } from '../../models/book';
 import {MatTableDataSource} from "@angular/material/table";
+import {PageEvent} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-checkouts-list',
@@ -14,6 +15,12 @@ export class CheckoutsListComponent implements OnInit {
   checkouts$!: Observable<Page<Book>>;
   displayedColumns: string[] = ['first-name', 'last-name', 'book-title', 'due-date'];
   dataSource = new MatTableDataSource<Book>();
+  pageSize = 20;
+  pageIndex = 0;
+  pageSizeOptions = [10, 20, 50];
+  showPageSizeOptions = true;
+  showFirstLastButtons = true;
+  length = 0;
 
   constructor(
     private checkOutService: CheckOutService,
@@ -21,9 +28,17 @@ export class CheckoutsListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.checkouts$ = this.checkOutService.getCheckOuts({});
+    this.checkouts$ = this.checkOutService.getCheckOuts({pageIndex: this.pageIndex, pageSize:this.pageSize});
     this.checkouts$.subscribe(checkouts => {
       this.dataSource.data = checkouts.content;
+      this.length = checkouts.totalElements;
     });
+  }
+
+  handlePageChangeEvent(event: PageEvent) {
+    this.length = event.length;
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+    this.ngOnInit();
   }
 }
