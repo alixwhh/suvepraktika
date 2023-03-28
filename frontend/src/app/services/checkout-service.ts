@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import { Page, PageRequest } from '../models/page';
-import { Book } from '../models/book';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { RestUtil } from './rest-util';
@@ -23,5 +22,11 @@ export class CheckOutService {
     const url = this.baseUrl + '/getCheckouts';
     const params = RestUtil.buildParamsFromPageRequest(filter);
     return this.http.get<Page<Checkout>>(url, {params});
+  }
+
+  getCheckOut(checkoutId: string): Observable<Checkout> {
+    const url = this.baseUrl + '/getCheckout';
+    const params = new HttpParams().set('checkOutId', checkoutId);
+    return this.http.get<Checkout>(url, {params});
   }
 }

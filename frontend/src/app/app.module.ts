@@ -12,6 +12,7 @@ import { BookDetailComponent } from './components/book-detail/book-detail.compon
 import { DeleteModalConfirmation } from './components/book-detail/delete-modal-confirmation/delete-modal-confirmation.component';
 import { HttpClientModule } from '@angular/common/http';
 import {FormsModule} from "@angular/forms";
+import {CheckoutDetailComponent} from "./components/checkout-detail/checkout-detail.component";
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {FormsModule} from "@angular/forms";
     BookDetailComponent,
     SearchBooksListComponent,
     DeleteModalConfirmation,
-    CheckoutsListComponent
+    CheckoutsListComponent,
+    CheckoutDetailComponent
   ],
     imports: [
         BrowserModule,
