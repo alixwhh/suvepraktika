@@ -10,6 +10,7 @@ import {Sort, SortDirection} from "@angular/material/sort";
 @Component({
   selector: 'app-checkouts-list',
   templateUrl: './checkouts-list.component.html',
+  styleUrls: ['./checkouts-list.component.scss']
 })
 export class CheckoutsListComponent implements OnInit {
 
