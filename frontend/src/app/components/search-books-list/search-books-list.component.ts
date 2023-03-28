@@ -27,6 +27,7 @@ export class SearchBooksListComponent implements OnInit {
   sortDirection!: SortDirection;
   sort!: string;
   bookStatuses = [null, 'AVAILABLE', 'BORROWED', 'RETURNED', 'DAMAGED', 'PROCESSING']
+  selectedStatus!: string;
   dataSource = new MatTableDataSource<Book>();
   displayedColumns: string[] = ['title', 'author', 'year', 'status'];
 
@@ -39,13 +40,15 @@ export class SearchBooksListComponent implements OnInit {
   ngOnInit(): void {
     this.books$ = this.route.params
       .pipe(map(params => params['name']))
-      .pipe(switchMap(name => this.bookService.getBooksByName(name, {pageIndex: this.pageIndex, pageSize:this.pageSize, sort:this.sort, direction:this.sortDirection})));
+      .pipe(switchMap(name => this.bookService.getBooksByName(name, {pageIndex: this.pageIndex, pageSize:this.pageSize, sort:this.sort, direction:this.sortDirection}, this.selectedStatus)));
     this.books$.subscribe(books => {
       this.dataSource.data = books.content;
       this.length = books.totalElements
     });
   }
-
+  filterBySelectedStatus() {
+    this.ngOnInit();
+  }
   sortBooks(event: Sort) {
     this.sortDirection = event.direction;
     this.sort = event.active;
