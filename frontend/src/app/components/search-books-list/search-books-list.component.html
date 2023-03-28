@@ -15,5 +15,14 @@
       </mat-nav-list>
     </mat-card-content>
   </mat-card>
+  <mat-paginator
+    class="paginator"
+    (page)="handlePageChangeEvent($event)"
+    [length]="length"
+    [pageSize]="pageSize"
+    [showFirstLastButtons]="showFirstLastButtons"
+    [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
+    [pageIndex]="pageIndex">
+  </mat-paginator>
 </div>
 
