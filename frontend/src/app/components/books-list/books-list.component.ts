@@ -5,6 +5,7 @@ import { Page } from '../../models/page';
 import { Book } from '../../models/book';
 import {PageEvent} from '@angular/material/paginator';
 import {map} from "rxjs/operators";
+import {MatTableDataSource} from "@angular/material/table";
 
 @Component({
   selector: 'app-books-list',
@@ -21,6 +22,10 @@ export class BooksListComponent implements OnInit {
   showPageSizeOptions = true;
   showFirstLastButtons = true;
   length = 0;
+  dataSource = new MatTableDataSource<Book>();
+  displayedColumns: string[] = ['title', 'author', 'year'];
+  books: Page<Book>[] = [];
+
 
   constructor(
     private bookService: BookService,
@@ -30,8 +35,9 @@ export class BooksListComponent implements OnInit {
   ngOnInit(): void {
     // TODO this observable should emit books taking into consideration pagination, sorting and filtering options.
     this.books$ = this.bookService.getBooks({pageIndex: this.pageIndex, pageSize:this.pageSize});
-    this.books$.subscribe(val => {
-      this.length = val.totalElements
+    this.books$.subscribe(books => {
+      this.dataSource.data = books.content;
+      this.length = books.totalElements
     });
   }
 
