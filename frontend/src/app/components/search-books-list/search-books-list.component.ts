@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { map, switchMap } from 'rxjs/operators';
 import {PageEvent} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
+import {Sort, SortDirection} from "@angular/material/sort";
 
 @Component({
   selector: 'app-search-books-list',
@@ -23,6 +24,8 @@ export class SearchBooksListComponent implements OnInit {
   showPageSizeOptions = true;
   showFirstLastButtons = true;
   length = 0;
+  sortDirection!: SortDirection;
+  sort!: string;
   dataSource = new MatTableDataSource<Book>();
   displayedColumns: string[] = ['title', 'author', 'year'];
 
@@ -35,11 +38,17 @@ export class SearchBooksListComponent implements OnInit {
   ngOnInit(): void {
     this.books$ = this.route.params
       .pipe(map(params => params['name']))
-      .pipe(switchMap(name => this.bookService.getBooksByName(name, {pageIndex: this.pageIndex, pageSize:this.pageSize})));
+      .pipe(switchMap(name => this.bookService.getBooksByName(name, {pageIndex: this.pageIndex, pageSize:this.pageSize, sort:this.sort, direction:this.sortDirection})));
     this.books$.subscribe(books => {
       this.dataSource.data = books.content;
       this.length = books.totalElements
     });
+  }
+
+  sortBooks(event: Sort) {
+    this.sortDirection = event.direction;
+    this.sort = event.active;
+    this.ngOnInit();
   }
 
   handlePageChangeEvent(event: PageEvent) {

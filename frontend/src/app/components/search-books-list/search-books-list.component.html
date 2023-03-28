@@ -6,9 +6,9 @@
     </mat-form-field>
   </div>
   <table mat-table [dataSource]="dataSource" class="table"
-         matSort matSortActive="Title">
+         matSort matSortActive="Title" (matSortChange)="sortBooks($event)">
     <ng-container matColumnDef="title">
-      <th mat-header-cell *matHeaderCellDef>Title</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
       <td mat-cell *matCellDef="let book">{{book.title}}</td>
     </ng-container>
     <ng-container matColumnDef="author">
