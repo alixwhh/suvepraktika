@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { map, switchMap } from 'rxjs/operators';
 import {MatDialog} from "@angular/material/dialog";
-import {DeleteModalConfirmation} from "./modal-confirmation/delete-modal-confirmation.component";
+import {DeleteModalConfirmation} from "./delete-modal-confirmation/delete-modal-confirmation.component";
 
 @Component({
   selector: 'app-book-detail',

@@ -8,7 +8,7 @@ import { MaterialModule } from './material/material.module';
 import { BooksListComponent } from './components/books-list/books-list.component';
 import { SearchBooksListComponent } from './components/search-books-list/search-books-list.component';
 import { BookDetailComponent } from './components/book-detail/book-detail.component';
-import { DeleteModalConfirmation } from './components/book-detail/modal-confirmation/delete-modal-confirmation.component';
+import { DeleteModalConfirmation } from './components/book-detail/delete-modal-confirmation/delete-modal-confirmation.component';
 import { HttpClientModule } from '@angular/common/http';
 import {FormsModule} from "@angular/forms";
 
