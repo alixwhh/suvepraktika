@@ -5,6 +5,7 @@ import { Page } from '../../models/page';
 import { Book } from '../../models/book';
 import {MatTableDataSource} from "@angular/material/table";
 import {PageEvent} from "@angular/material/paginator";
+import {Sort, SortDirection} from "@angular/material/sort";
 
 @Component({
   selector: 'app-checkouts-list',
@@ -13,7 +14,7 @@ import {PageEvent} from "@angular/material/paginator";
 export class CheckoutsListComponent implements OnInit {
 
   checkouts$!: Observable<Page<Book>>;
-  displayedColumns: string[] = ['first-name', 'last-name', 'book-title', 'due-date'];
+  displayedColumns: string[] = ['borrowerFirstName', 'borrowerLastName', 'borrowedBook.title', 'dueDate'];
   dataSource = new MatTableDataSource<Book>();
   pageSize = 20;
   pageIndex = 0;
@@ -21,6 +22,8 @@ export class CheckoutsListComponent implements OnInit {
   showPageSizeOptions = true;
   showFirstLastButtons = true;
   length = 0;
+  sortDirection!: SortDirection;
+  sort!: string;
 
   constructor(
     private checkOutService: CheckOutService,
@@ -28,11 +31,17 @@ export class CheckoutsListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.checkouts$ = this.checkOutService.getCheckOuts({pageIndex: this.pageIndex, pageSize:this.pageSize});
+    this.checkouts$ = this.checkOutService.getCheckOuts({pageIndex: this.pageIndex, pageSize:this.pageSize, sort:this.sort, direction:this.sortDirection});
     this.checkouts$.subscribe(checkouts => {
       this.dataSource.data = checkouts.content;
       this.length = checkouts.totalElements;
     });
+  }
+
+  sortCheckouts(event: Sort) {
+    this.sortDirection = event.direction;
+    this.sort = event.active;
+    this.ngOnInit();
   }
 
   handlePageChangeEvent(event: PageEvent) {
