@@ -26,8 +26,9 @@ export class SearchBooksListComponent implements OnInit {
   length = 0;
   sortDirection!: SortDirection;
   sort!: string;
+  bookStatuses = [null, 'AVAILABLE', 'BORROWED', 'RETURNED', 'DAMAGED', 'PROCESSING']
   dataSource = new MatTableDataSource<Book>();
-  displayedColumns: string[] = ['title', 'author', 'year'];
+  displayedColumns: string[] = ['title', 'author', 'year', 'status'];
 
   constructor(
     private route: ActivatedRoute,

@@ -3,6 +3,11 @@
   margin: 2em auto;
 }
 
+.filter-container {
+  display: flex;
+  justify-content: space-between;
+}
+
 .table-row {
   cursor: pointer;
 }
