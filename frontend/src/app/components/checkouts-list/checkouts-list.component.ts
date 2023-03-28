@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CheckOutService } from '../../services/checkout-service';
 import { Observable } from 'rxjs';
 import { Page } from '../../models/page';
-import { Book } from '../../models/book';
+import { Checkout } from '../../models/checkout';
 import {MatTableDataSource} from "@angular/material/table";
 import {PageEvent} from "@angular/material/paginator";
 import {Sort, SortDirection} from "@angular/material/sort";
@@ -14,9 +14,9 @@ import {Sort, SortDirection} from "@angular/material/sort";
 })
 export class CheckoutsListComponent implements OnInit {
 
-  checkouts$!: Observable<Page<Book>>;
+  checkouts$!: Observable<Page<Checkout>>;
   displayedColumns: string[] = ['borrowerFirstName', 'borrowerLastName', 'borrowedBook.title', 'dueDate'];
-  dataSource = new MatTableDataSource<Book>();
+  dataSource = new MatTableDataSource<Checkout>();
   pageSize = 20;
   pageIndex = 0;
   pageSizeOptions = [10, 20, 50];
