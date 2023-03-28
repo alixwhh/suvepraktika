@@ -1,1 +1,23 @@
-<pre>{{checkout$ | async | json}}</pre>
+<div class="container mat-elevation-z4">
+  <mat-card *ngIf="(checkout$ | async) as checkout">
+    <mat-card-header>
+      <mat-card-title>
+        {{checkout.borrowerFirstName}} {{checkout.borrowerLastName}}
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="borrowed-book">
+        Borrowed Book: {{checkout.borrowedBook.title}}
+      </div>
+      <div class="due-date" *ngIf="checkout.dueDate">
+        Due Date: {{checkout.dueDate}}
+      </div>
+      <div class="checked-out-date" *ngIf="checkout.checkedOutDate">
+        Checked Out: {{checkout.checkedOutDate}}
+      </div>
+      <div class="returned-date" *ngIf="checkout.returnedDate">
+        Returned: {{checkout.returnedDate}}
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

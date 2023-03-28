@@ -7,7 +7,8 @@ import {CheckOutService} from "../../services/checkout-service";
 
 @Component({
   selector: 'app-checkout-detail',
-  templateUrl: './checkout-detail.component.html'
+  templateUrl: './checkout-detail.component.html',
+  styleUrls: ['./checkout-detail.component.scss']
 })
 export class CheckoutDetailComponent implements OnInit {
   checkout$!: Observable<Checkout>;
