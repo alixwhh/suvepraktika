@@ -3,6 +3,8 @@ import { BookService } from '../../services/book.service';
 import { Observable } from 'rxjs';
 import { Page } from '../../models/page';
 import { Book } from '../../models/book';
+import {PageEvent} from '@angular/material/paginator';
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-books-list',
@@ -13,6 +15,12 @@ export class BooksListComponent implements OnInit {
 
   books$!: Observable<Page<Book>>;
   searchText: string = '';
+  pageSize = 20;
+  pageIndex = 0;
+  pageSizeOptions = [10, 20, 50];
+  showPageSizeOptions = true;
+  showFirstLastButtons = true;
+  length = 0;
 
   constructor(
     private bookService: BookService,
@@ -21,8 +29,16 @@ export class BooksListComponent implements OnInit {
 
   ngOnInit(): void {
     // TODO this observable should emit books taking into consideration pagination, sorting and filtering options.
-    this.books$ = this.bookService.getBooks({});
-
+    this.books$ = this.bookService.getBooks({pageIndex: this.pageIndex, pageSize:this.pageSize});
+    this.books$.subscribe(val => {
+      this.length = val.totalElements
+    });
   }
 
+  handlePageChangeEvent(event: PageEvent) {
+    this.length = event.length;
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+    this.ngOnInit();
+  }
 }

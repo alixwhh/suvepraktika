@@ -42,7 +42,6 @@ export class BookService {
   }
 
   getBooksByName(name: string, filter: Partial<PageRequest>) {
-    console.log(name)
     const url = this.baseUrl + '/getBooksByName';
     let params = RestUtil.buildParamsFromPageRequest(filter);
     params = params.set('bookName', name);
