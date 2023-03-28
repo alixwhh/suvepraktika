@@ -6,9 +6,9 @@
       </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <div class="borrowed-book">
+      <a class="borrowed-book"  [routerLink]="['/books', checkout.borrowedBook.id]">
         Borrowed Book: {{checkout.borrowedBook.title}}
-      </div>
+      </a>
       <div class="due-date" *ngIf="checkout.dueDate">
         Due Date: {{checkout.dueDate}}
       </div>
