@@ -2,6 +2,7 @@ package com.cgi.library.service;
 
 import com.cgi.library.entity.Book;
 import com.cgi.library.model.BookDTO;
+import com.cgi.library.model.BookStatus;
 import com.cgi.library.repository.BookRepository;
 import com.cgi.library.util.ModelMapperFactory;
 import org.modelmapper.ModelMapper;
@@ -18,9 +19,28 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
-    public Page<BookDTO> getBooks(Pageable pageable) {
+    public Page<BookDTO> getBooks(Pageable pageable, String statusString) {
         ModelMapper modelMapper = ModelMapperFactory.getMapper();
+        if (statusString != null) {
+            BookStatus status = getEnumValueFromStatusString(statusString);
+            return bookRepository.findAllByStatus(status, pageable).map(book -> modelMapper.map(book, BookDTO.class));
+        }
         return bookRepository.findAll(pageable).map(book -> modelMapper.map(book, BookDTO.class));
+    }
+
+    public BookStatus getEnumValueFromStatusString(String statusString) {
+        switch (statusString) {
+            case "AVAILABLE":
+                return BookStatus.AVAILABLE;
+            case "BORROWED":
+                return BookStatus.BORROWED;
+            case "RETURNED":
+                return BookStatus.RETURNED;
+            case "DAMAGED":
+                return BookStatus.DAMAGED;
+            default:
+                return BookStatus.PROCESSING;
+        }
     }
 
     public BookDTO getBook(UUID bookId) {
